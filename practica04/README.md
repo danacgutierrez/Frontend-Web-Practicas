@@ -2,11 +2,11 @@ Práctica 04
 
 
 
-!\[201 Created](capturas/01-crear-201.png)
+![201 Created](capturas/01-crear-201.png)
 
-!\[409 Conflict](capturas/02-duplicado-409.png)
+![409 Conflict](capturas/02-duplicado-409.png)
 
-!\[400 Bad Request](capturas/03-validacion-400.png)
+![400 Bad Request](capturas/03-validacion-400.png)
 
 
 
