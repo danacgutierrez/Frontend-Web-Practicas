@@ -1,0 +1,49 @@
+@base = http://localhost:3000
+
+### 0. Estado inicial
+GET {{base}}/inscripciones
+
+### 1. Primera inscripción -> 201 
+POST {{base}}/inscripciones
+Content-Type: application/json
+
+{ "horarioId": 1, "miembroId": 1 }
+
+### 2. Segunda inscripción -> 201
+POST {{base}}/inscripciones
+Content-Type: application/json
+
+{ "horarioId": 1, "miembroId": 2 }
+
+### 3. Tercera inscripción, cupo lleno -> 409 
+POST {{base}}/inscripciones
+Content-Type: application/json
+
+{ "horarioId": 1, "miembroId": 3 }
+
+### 4. Miembro repetido -> 409 
+POST {{base}}/inscripciones
+Content-Type: application/json
+
+{ "horarioId": 1, "miembroId": 1 }
+
+### 5. Cancelar la inscripción 1 
+DELETE {{base}}/inscripciones/1
+
+### 6. Repetir la petición del paso 3 -> 201
+POST {{base}}/inscripciones
+Content-Type: application/json
+
+{ "horarioId": 1, "miembroId": 3 }
+
+### Cuerpo vacío -> 400
+POST {{base}}/inscripciones
+Content-Type: application/json
+
+{}
+
+### Horario inexistente -> 404
+POST {{base}}/inscripciones
+Content-Type: application/json
+
+{ "horarioId": 999, "miembroId": 1 }
