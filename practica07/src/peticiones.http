@@ -1,0 +1,25 @@
+@base = http://localhost:3000
+
+### 1. Listar miembros -> 200
+GET {{base}}/miembros
+
+### 2. Buscar miembro por id -> 200
+GET {{base}}/miembros/1
+
+### 3. Crear miembro -> 201
+POST {{base}}/miembros
+Content-Type: application/json
+
+{ "nombre": "Luis Pérez", "correo": "luis@itson.mx", "membresia": "plus" }
+
+### 4. Actualizar miembro -> 200
+PATCH {{base}}/miembros/1
+Content-Type: application/json
+
+{ "membresia": "basica", "activo": false }
+
+### 5. Eliminar miembro -> 200
+DELETE {{base}}/miembros/3
+
+### Miembro inexistente -> 404
+GET {{base}}/miembros/999
