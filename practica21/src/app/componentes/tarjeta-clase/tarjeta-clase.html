@@ -1,0 +1,15 @@
+<article class="tarjeta-clase" [class.tarjeta-clase--activa]="activa()" (click)="elegir()">  <img [src]="api + clase().imagen" [alt]="clase().nombre" />
+  <div class="tarjeta-clase__cuerpo">
+    <h3 class="tarjeta-clase__nombre">{{ clase().nombre }}</h3>
+    <p class="clase__desc">{{ clase().descripcion }}</p>
+    <div class="tarjeta-clase__pie">
+      <span [class]="'etiqueta etiqueta--' + clase().categoria">
+        {{ clase().categoria | titlecase }}
+      </span>
+      <span class="etiqueta etiqueta--min">{{ clase().duracionMin }} min</span>
+      @if (clase().duracionMin >= 60) {
+        <span class="etiqueta etiqueta--larga">Larga</span>
+      }
+    </div>
+  </div>
+</article>

@@ -1,0 +1,21 @@
+import { TitleCasePipe } from '@angular/common';
+import { Component, input, output } from '@angular/core';
+import type { Clase } from '../../modelos/clase';
+import { API_URL } from '../../config';
+
+@Component({
+  selector: 'app-tarjeta-clase',
+  imports: [TitleCasePipe],
+  templateUrl: './tarjeta-clase.html',
+  styleUrl: './tarjeta-clase.css',
+})
+export class TarjetaClase {
+  readonly clase = input.required<Clase>();
+  readonly activa = input(false);
+  readonly elegida = output<Clase>();
+  protected readonly api = API_URL
+
+  protected elegir(): void {
+    this.elegida.emit(this.clase());
+  }
+}

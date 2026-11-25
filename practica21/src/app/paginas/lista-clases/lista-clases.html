@@ -1,0 +1,61 @@
+<div class="encabezado">
+  <div>
+    <h1>Catálogo de clases</h1>
+    <p>Datos desde la API · Práctica 21</p>
+  </div>
+  <div class="acciones">
+    <button class="boton" type="button" routerLink="/clases/nueva">+ Nueva clase</button>
+  </div>
+</div>
+
+@if (catalogo.cargando()) {
+  <p class="cargando">Cargando clases…</p>
+} @else if (catalogo.error(); as mensaje) {
+  <div class="aviso aviso--error">
+    {{ mensaje }}
+    <button class="boton boton--chico" type="button" (click)="catalogo.recargar()">Reintentar</button>
+  </div>
+} @else {
+  <section class="resumen">
+    <div class="resumen__dato">
+      <span class="resumen__numero">{{ catalogo.visibles().length }}</span>
+      <span class="resumen__texto">clases mostradas</span>
+    </div>
+    <div class="resumen__dato">
+      <span class="resumen__numero">{{ catalogo.minutosTotales() }}</span>
+      <span class="resumen__texto">minutos a la semana</span>
+    </div>
+    <div class="resumen__dato">
+      <span class="resumen__numero">{{ catalogo.clasesLargas() }}</span>
+      <span class="resumen__texto">clases de una hora o más</span>
+    </div>
+  </section>
+
+  <app-filtro-categoria />
+
+  <div class="tablero">
+    <div class="rejilla">
+      @for (clase of catalogo.visibles(); track clase.id) {
+        <app-tarjeta-clase
+          [clase]="clase"
+          [activa]="catalogo.seleccionada()?.id === clase.id"
+          (elegida)="catalogo.seleccionar($event)"
+        />
+      } @empty {
+        <p class="vacio">No hay clases en el catálogo.</p>
+      }
+    </div>
+
+    <aside class="lateral tarjeta">
+      @if (catalogo.seleccionada(); as sel) {
+        <img [src]="api + sel.imagen" [alt]="sel.nombre" />
+        <h2>{{ sel.nombre }}</h2>
+        <p>{{ sel.descripcion }}</p>
+        <span [class]="'etiqueta etiqueta--' + sel.categoria">{{ sel.categoria | titlecase }}</span>
+        <span class="etiqueta etiqueta--min">{{ sel.duracionMin }} min</span>
+      } @else {
+        <p class="vacio">Elige una clase para ver su detalle.</p>
+      }
+    </aside>
+  </div>
+}

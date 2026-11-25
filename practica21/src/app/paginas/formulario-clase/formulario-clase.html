@@ -1,0 +1,77 @@
+<div class="encabezado">
+  <div><h1>Nueva clase</h1><p>Formulario reactivo · Práctica 21</p></div>
+</div>
+
+<form class="formulario tarjeta" [formGroup]="formulario" (ngSubmit)="guardar()">
+  @let nombre = formulario.controls.nombre;
+  <div class="campo">
+    <label for="nombre">Nombre</label>
+    <input id="nombre" type="text" formControlName="nombre" />
+    @if (nombre.touched) {
+      @if (nombre.hasError('required')) { <span class="error">El nombre es obligatorio.</span> }
+      @if (nombre.hasError('minlength')) { <span class="error">Mínimo 3 caracteres.</span> }
+      @if (nombre.hasError('maxlength')) { <span class="error">Máximo 60 caracteres.</span> }
+    }
+  </div>
+
+  @let categoria = formulario.controls.categoria;
+  <div class="fila">
+    <div class="campo">
+      <label for="categoria">Categoría</label>
+      <select id="categoria" formControlName="categoria">
+        <option value="">— Elige —</option>
+        @for (c of categorias; track c) { <option [value]="c">{{ c }}</option> }
+      </select>
+      @if (categoria.touched && categoria.hasError('required')) {
+        <span class="error">Elige una categoría.</span>
+      }
+    </div>
+
+    @let duracion = formulario.controls.duracionMin;
+    <div class="campo">
+      <label for="duracion">Duración (min)</label>
+      <input id="duracion" type="number" formControlName="duracionMin" />
+      @if (duracion.touched) {
+        @if (duracion.hasError('required')) { <span class="error">La duración es obligatoria.</span> }
+        @if (duracion.hasError('min')) { <span class="error">Mínimo 15 minutos.</span> }
+        @if (duracion.hasError('max')) { <span class="error">Máximo 180 minutos.</span> }
+        @if (duracion.hasError('multiploDeCinco')) {
+          <span class="error">La duración debe ir en bloques de 5 minutos.</span>
+        }
+      }
+    </div>
+  </div>
+
+  @let descripcion = formulario.controls.descripcion;
+  <div class="campo">
+    <label for="descripcion">Descripción</label>
+    <textarea id="descripcion" rows="3" formControlName="descripcion"></textarea>
+    @if (descripcion.touched) {
+      @if (descripcion.hasError('required')) { <span class="error">La descripción es obligatoria.</span> }
+      @if (descripcion.hasError('minlength')) { <span class="error">Mínimo 10 caracteres.</span> }
+      @if (descripcion.hasError('maxlength')) { <span class="error">Máximo 200 caracteres.</span> }
+    }
+  </div>
+
+  @let imagen = formulario.controls.imagen;
+  <div class="campo">
+    <label for="imagen">Imagen</label>
+    <input id="imagen" type="text" formControlName="imagen" placeholder="/img/clase-01.jpg" />
+    @if (imagen.touched) {
+      @if (imagen.hasError('required')) { <span class="error">La imagen es obligatoria.</span> }
+      @if (imagen.hasError('pattern')) { <span class="error">Debe empezar con /img/ (ej. /img/clase-01.jpg).</span> }
+    }
+  </div>
+
+  <div class="acciones">
+    <button class="boton" type="submit">Guardar</button>
+    <button class="boton boton--secundario" type="button" routerLink="/clases">Cancelar</button>
+  </div>
+</form>
+
+@if (aMandar(); as objeto) {
+  <div class="aviso aviso--exito">
+    <strong>Objeto listo para mandar a la API (todavía no se envía):</strong>
+    <pre>{{ objeto | json }}</pre>
+  </div>
+}
